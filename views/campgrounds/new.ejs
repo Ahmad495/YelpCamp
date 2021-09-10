@@ -1,0 +1,75 @@
+<% layout('layouts/Boilerplate')%>
+    <center class="my-4">
+        <h1>Add New CampGround</h1>
+    </center>
+    <div class="row">
+        <div class="col-lg-6 offset-3">
+            <form action="/campgrounds" method="POST" class="validated-form" novalidate>
+                <div class="form-group my-2">
+                    <label class="form-label" for="camp-title">Enter CampGround Title</label>
+                    <input class="form-control" type="text" name="campground[title]" id="camp-title"
+                        placeholder="Campground" required>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Must Enter CampGround Title
+                    </div>
+                </div>
+                <div class="form-group my-2">
+                    <label class="form-label" for="camp-location">Enter campGround Location</label>
+                    <input class="form-control" type="text" name="campground[location]" id="camp-location"
+                        placeholder="Location" required>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Must Enter CampGround Location
+                    </div>
+                </div>
+                <div class="form-group my-2">
+                    <label class="form-label" for="camp-Image">Enter campGround Image</label>
+                    <input class="form-control" type="text" name="campground[image]" id="camp-Image" placeholder="Image"
+                        required>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Must Enter CampGround Image
+                    </div>
+                </div>
+                <div class="my-2">
+                    <label for="form-label" for="">Enter campGround Price</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input type="text" class="form-control" id="price" name="campground[price]"
+                            aria-label="Amount (to the nearest dollar)" required>
+                        <span class="input-group-text">.00</span>
+                        <div class="valid-feedback">
+                            Looks Good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Must Enter CampGround Price
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="camp-Discription">Enter campGround Description</label>
+                    <textarea class="form-control" type="text" name="campground[discription]" id="camp-Discription"
+                        placeholder="Discription" required></textarea>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Must Enter CampGround Description
+                    </div>
+                </div>
+                <div class="my-2">
+                    <button class="btn btn-success btn-sm mb-2">Add Campground</button>
+                </div>
+            </form>
+            <button class="btn btn-primary btn-sm"><a href="/campgrounds"
+                    style="text-decoration: none; color: white;">All
+                    Campground</a></button>
+        </div>
+    </div>

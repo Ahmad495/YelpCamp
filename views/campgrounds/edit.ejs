@@ -1,0 +1,76 @@
+<% layout('layouts/Boilerplate')%>
+    <center class="my-5">
+        <h1>Edit <%= campgrounds.title %> CampGround</h1>
+    </center>
+    <div class="row">
+        <div class="col-lg-6 offset-3">
+            <form action="/campgrounds/<%= campgrounds._id %>?_method=PUT " class="validated-form" method="POST"
+                novalidate>
+                <div class="form-group mb-2">
+                    <label class="form-label" for="camp-title">Edit CampGround Title</label>
+                    <input class="form-control" type="text" name="campground[title]" id="camp-title"
+                        value="<%= campgrounds.title %> " placeholder="Campground" required>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Must Enter CampGround Title
+                    </div>
+                </div>
+                <div class="form-group mb-2">
+                    <label class="form-label" for="camp-location">Edit campGround Location</label>
+                    <input class="form-control" type="text" name="campground[location]" id="camp-location"
+                        value="<%= campgrounds.location %> " placeholder="Location" required>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Must Enter CampGround Location
+                    </div>
+                </div>
+                <div class="form-group mb-2">
+                    <label class="form-label" for="camp-image">Edit campGround image</label>
+                    <input class="form-control" type="text" name="campground[image]" id="camp-=image"
+                        value="<%= campgrounds.image %>" placeholder="image" required>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Must Enter CampGround Image
+                    </div>
+                </div>
+                <div class="my-2">
+                    <label for="form-label" for="">Enter campGround Price</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input type="text" class="form-control" id="price" name="campground[price]"
+                            aria-label="Amount (to the nearest dollar)" value="<%= campgrounds.price %> " required>
+                        <span class="input-group-text">.00</span>
+                        <div class="valid-feedback">
+                            Looks Good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Must Enter CampGround Price
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-2">
+                    <label class="form-label" for="camp-discription">Edit campGround discription</label>
+                    <textarea class="form-control" type="text" name="campground[discription]" id="camp-discription"
+                        placeholder="discription" required><%= campgrounds.discription %></textarea>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Must Enter CampGround Description
+                    </div>
+                </div>
+                <div class="form-group my-2">
+                    <button class="btn btn-info btn-sm mb-2" style="color: white;">Edit Campgournd</button>
+                </div>
+            </form>
+            <button class="btn btn-primary btn-sm"><a href="/campgrounds"
+                    style="text-decoration: none; color: white;">All
+                    Campground</a></button>
+        </div>
+    </div>
