@@ -9,8 +9,6 @@ const ExpressError = require('../utils/ExpressError');
 const Campground = require('../models/campGround');
 
 
-const joi = require('joi');
-const { required } = require('joi');
 const { joiValidationSchema } = require('../serverSideValidation');
 
 

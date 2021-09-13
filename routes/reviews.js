@@ -10,8 +10,6 @@ const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 
 
-const joi = require('joi');
-const { required } = require('joi');
 const { reviewValidationSchema } = require('../serverSideValidation.js');
 
 const validationReview = (req, res, next) => {
@@ -35,10 +33,10 @@ router.post('/', validationReview, catchAsync(async (req, res) => {
 }))
 
 router.delete('/:reviewID', catchAsync(async (req, res) => {
-    const { reviewID, campgroundID } = req.params;
-    await Campground.findByIdAndUpdate(campgroundID, { $pull: { reviewsRef: reviewID } });
+    const { reviewID, id } = req.params;
+    await Campground.findByIdAndUpdate(id, { $pull: { reviewsRef: reviewID } });
     await Review.findByIdAndDelete(reviewID);
-    res.redirect(`/campgrounds/${campgroundID}`);
+    res.redirect(`/campgrounds/${id}`);
 }))
 
 module.exports = router;
