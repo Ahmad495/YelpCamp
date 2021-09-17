@@ -7,6 +7,9 @@ const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const loaclStrategy = require('passport-local');
+const User = require('./models/user');
 
 
 const Campground = require('./models/campGround');
@@ -51,6 +54,12 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new loaclStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
@@ -66,6 +75,15 @@ app.use('/campgrounds/:id/reviews', reviewRouter);
 
 app.get('/', (req, res) => {
     res.send("YelpCamp");
+})
+
+app.get('/fakeUser', async (req, res) => {
+    const user = new User({
+        email: 'ahmad@gmail.com',
+        username: 'ahmad'
+    });
+    const newUser = await User.register(user, 'monkey');
+    res.send(newUser);
 })
 
 
