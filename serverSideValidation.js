@@ -17,3 +17,10 @@ module.exports.reviewValidationSchema = joi.object({
     }).required()
 })
 
+module.exports.userRegisterValidation = joi.object({
+    user: joi.object({
+        email: joi.string().required(),
+        username: joi.string().required(),
+        password: joi.string().required()
+    }).required()
+})

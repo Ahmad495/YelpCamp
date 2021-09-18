@@ -18,6 +18,8 @@ const Review = require('./models/review');
 
 const campgroundRouter = require('./routes/campground');
 const reviewRouter = require('./routes/reviews');
+const userRouter = require('./routes/user');
+
 
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
@@ -71,6 +73,7 @@ app.use((req, res, next) => {
 
 app.use('/campgrounds', campgroundRouter);
 app.use('/campgrounds/:id/reviews', reviewRouter);
+app.use('/', userRouter);
 
 
 app.get('/', (req, res) => {
