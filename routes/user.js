@@ -23,7 +23,7 @@ router.get('/register', (req, res) => {
     res.render('users/register')
 })
 
-router.post('/register', catchAsync(async (req, res) => {
+router.post('/register', validationUser, catchAsync(async (req, res) => {
     const { username, email, password } = req.body.user;
     const user = new User({ email, username });
     try {
@@ -35,6 +35,15 @@ router.post('/register', catchAsync(async (req, res) => {
         res.redirect('/register');
     }
 }))
+
+router.get('/login', (req, res) => {
+    res.render('users/login');
+})
+
+router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
+    req.flash('success', 'You Have Logged In!');
+    res.redirect('/campgrounds');
+})
 
 module.exports = router;
 
