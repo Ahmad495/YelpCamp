@@ -11,6 +11,8 @@ const Campground = require('../models/campGround');
 
 const { joiValidationSchema } = require('../serverSideValidation');
 
+const { isLoggedIn } = require('../loginMiddleware');
+
 
 
 const validationCampground = (req, res, next) => {
@@ -29,18 +31,18 @@ router.get('/', catchAsync(async (req, res) => {
     res.render('campgrounds/index', { campgrounds });
 }))
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('campgrounds/new');
 })
 
-router.post('/', validationCampground, catchAsync(async (req, res) => {
+router.post('/', isLoggedIn, validationCampground, catchAsync(async (req, res) => {
     const campground = new Campground(req.body.campground);
     await campground.save();
     req.flash('success', 'Successfully made a new campground');
     res.redirect(`/campgrounds/${campground._id}`);
 }))
 
-router.put('/:id', validationCampground, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validationCampground, catchAsync(async (req, res) => {
     const { id } = req.params;
     const campgrounds = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
     req.flash('success', 'Successfully edited campground');
@@ -54,7 +56,7 @@ router.delete('/:id', catchAsync(async (req, res) => {
     res.redirect('/campgrounds');
 }))
 
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     const campgrounds = await Campground.findById(id);
     if (!campgrounds) {
