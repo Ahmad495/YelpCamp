@@ -64,6 +64,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     res.locals.deleted = req.flash('deleted');
@@ -79,16 +80,6 @@ app.use('/', userRouter);
 app.get('/', (req, res) => {
     res.send("YelpCamp");
 })
-
-app.get('/fakeUser', async (req, res) => {
-    const user = new User({
-        email: 'ahmad@gmail.com',
-        username: 'ahmad'
-    });
-    const newUser = await User.register(user, 'monkey');
-    res.send(newUser);
-})
-
 
 app.all('*', (req, res, next) => {
     next(new ExpressError(404, 'Page Not found'));

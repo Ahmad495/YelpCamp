@@ -11,6 +11,7 @@ const ExpressError = require('../utils/ExpressError');
 
 
 const { reviewValidationSchema } = require('../serverSideValidation.js');
+const { isLoggedIn } = require('../loginMiddleware');
 
 const validationReview = (req, res, next) => {
     const { error } = reviewValidationSchema.validate(req.body);
@@ -22,7 +23,7 @@ const validationReview = (req, res, next) => {
     }
 }
 
-router.post('/', validationReview, catchAsync(async (req, res) => {
+router.post('/', isLoggedIn, validationReview, catchAsync(async (req, res) => {
     const { id } = req.params;
     const campgrounds = await Campground.findById(id);
     const reviews = new Review(req.body.review);
@@ -33,7 +34,7 @@ router.post('/', validationReview, catchAsync(async (req, res) => {
     res.redirect(`/campgrounds/${campgrounds._id}`);
 }))
 
-router.delete('/:reviewID', catchAsync(async (req, res) => {
+router.delete('/:reviewID', isLoggedIn, catchAsync(async (req, res) => {
     const { reviewID, id } = req.params;
     await Campground.findByIdAndUpdate(id, { $pull: { reviewsRef: reviewID } });
     await Review.findByIdAndDelete(reviewID);
