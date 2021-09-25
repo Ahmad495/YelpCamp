@@ -50,14 +50,25 @@
             </div>
             <div class="col-lg-6 my-5">
                 <% if (currentUser) { %>
-                    <h2>Give Rating</h2>
+                    <h2>Leave a Review</h2>
                     <form class="mb-5 validated-form" action="/campgrounds/<%= campgrounds._id %>/reviews" method="POST"
                         novalidate>
                         <div class="row mb-2">
                             <div class="mb-3 form-group col-lg-3">
-                                <label class="form-label" for="rating">Rating</label>
-                                <input class="form-range" step="0.5" min="1" max="5" type="range" name="review[rating]"
-                                    id="rating" required>
+                                <fieldset class="starability-basic">
+                                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]"
+                                        value="1" checked aria-label="No rating." />
+                                    <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                                    <label for="first-rate1" title="Terrible">1 star</label>
+                                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                                    <label for="first-rate2" title="Not good">2 stars</label>
+                                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                                    <label for="first-rate3" title="Average">3 stars</label>
+                                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                                    <label for="first-rate4" title="Very good">4 stars</label>
+                                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                                    <label for="first-rate5" title="Amazing">5 stars</label>
+                                </fieldset>
                                 <div class="valid-feedback">
                                     Looks Good!
                                 </div>
@@ -86,12 +97,12 @@
                             <% for( let review of campgrounds.reviewsRef) { %>
                                 <div class="card mb-2">
                                     <div class="card-body">
-                                        <h5 class="card-title">
-                                            RATING: <%= review.rating %>
-                                        </h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">
-                                            By: <%= review.author.username %>
-                                        </h6>
+                                        <h4 class="card-title">
+                                            <%= review.author.username %>
+                                        </h4>
+                                        <p class="starability-result" data-rating="<%= review.rating %>">
+                                            Rated: <%= review.rating %>stars
+                                        </p>
                                         <p class="card-text">DESCRIPTION:
                                             <%=review.body%>
                                         </p>
