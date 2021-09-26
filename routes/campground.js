@@ -13,11 +13,7 @@ router.get('/', catchAsync(campgroundsController.index));
 
 router.get('/new', isLoggedIn, campgroundsController.newCampground);
 
-// router.post('/', isLoggedIn, validationCampground, catchAsync(campgroundsController.createNewCampground));
-
-router.post('/', upload.array('campground[image]'), (req, res) => {
-    console.log(req.body, req.files);
-})
+router.post('/', isLoggedIn, upload.array('campground[image]'), validationCampground, catchAsync(campgroundsController.createNewCampground));
 
 router.put('/:id', isLoggedIn, isAuthorCampground, validationCampground, catchAsync(campgroundsController.editCampground));
 
