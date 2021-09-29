@@ -7,7 +7,8 @@ module.exports.joiValidationSchema = joi.object({
         // image: joi.string().required(),
         discription: joi.string().required(),
         location: joi.string().required()
-    }).required()
+    }).required(),
+    deleteImage: joi.array()
 });
 
 module.exports.reviewValidationSchema = joi.object({

@@ -15,7 +15,7 @@ router.get('/new', isLoggedIn, campgroundsController.newCampground);
 
 router.post('/', isLoggedIn, upload.array('campground[image]'), validationCampground, catchAsync(campgroundsController.createNewCampground));
 
-router.put('/:id', isLoggedIn, isAuthorCampground, validationCampground, catchAsync(campgroundsController.editCampground));
+router.put('/:id', isLoggedIn, isAuthorCampground, upload.array('campground[image]'), validationCampground, catchAsync(campgroundsController.editCampground));
 
 router.delete('/:id', isLoggedIn, isAuthorCampground, catchAsync(campgroundsController.deleteCampground));
 
