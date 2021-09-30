@@ -1,8 +1,7 @@
 <% layout('layouts/boilerplate')%>
     <section class="container">
         <div class="row">
-            <div class="col-lg-6 my-5">
-                <div id='map' style='width: 400px; height: 300px;'></div>
+            <div class="col-lg-4 offset-2 my-5">
                 <div class="card">
                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
@@ -69,7 +68,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 my-5">
+            <div class="col-lg-4 my-5">
+                <div id='map' style='width: 400px; height: 200px;'></div>
                 <% if (currentUser) { %>
                     <h2>Leave a Review</h2>
                     <form class="mb-5 validated-form" action="/campgrounds/<%= campgrounds._id %>/reviews" method="POST"
@@ -112,8 +112,8 @@
                         <button class="btn btn-success">Submit</button>
                     </form>
                     <hr>
+                    <h2>RATINGS FOR <%= campgrounds.title %> :</h2>
                     <% } %>
-                        <h2>RATINGS FOR <%= campgrounds.title %> :</h2>
                         <div class="my-2">
                             <% for( let review of campgrounds.reviewsRef) { %>
                                 <div class="card mb-2">
