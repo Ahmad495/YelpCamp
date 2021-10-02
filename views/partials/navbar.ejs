@@ -6,15 +6,10 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/campgrounds">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/campgrounds/new">Add Campground</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ms-auto">
                 <% if (!currentUser) { %>
                     <li class="nav-items">
                         <a href="/login" class="nav-link">Login</a>
@@ -23,6 +18,9 @@
                         <a href="/register" class="nav-link">Sign Up</a>
                     </li>
                     <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/campgrounds/new">Add Campground</a>
+                        </li>
                         <li class="nav-items">
                             <a href="/logout" class="nav-link">Logout</a>
                         </li>
