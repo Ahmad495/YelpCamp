@@ -146,10 +146,6 @@ app.use('/campgrounds/:id/reviews', reviewRouter);
 app.use('/', userRouter);
 
 
-app.get('/', (req, res) => {
-    res.send("YelpCamp");
-})
-
 app.all('*', (req, res, next) => {
     next(new ExpressError(404, 'Page Not found'));
 })
