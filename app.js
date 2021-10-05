@@ -15,6 +15,8 @@ const passport = require('passport');
 const loaclStrategy = require('passport-local');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
+const MongoStore = require('connect-mongo');
 
 const Campground = require('./models/campGround');
 const Review = require('./models/review');
@@ -23,10 +25,11 @@ const Review = require('./models/review');
 const campgroundRouter = require('./routes/campground');
 const reviewRouter = require('./routes/reviews');
 const userRouter = require('./routes/user');
+const { contentSecurityPolicy } = require('helmet');
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
 
-
-
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+// 'mongodb://localhost:27017/yelp-camp'
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     // useCreateIndex: true,
     useUnifiedTopology: true
@@ -47,10 +50,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(mongoSanitize());
+app.use(helmet());
+
+const secret = process.env.SECRET || 'thisshouldbeabettersecret';
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret
+    }
+});
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e);
+})
 
 const sessionConfig = {
+    store,
     name: 'session',
-    secret: 'thisshouldbeabettersecret',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -60,6 +79,50 @@ const sessionConfig = {
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }
+
+const scriptSrcUrls = [
+    "https://cdn.jsdelivr.net/",
+    "https://api.tiles.mapbox.com/",
+    "https://api.mapbox.com/",
+    "https://kit.fontawesome.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+];
+const styleSrcUrls = [
+    "https://cdn.jsdelivr.net/",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.mapbox.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.fontawesome.com/",
+];
+const connectSrcUrls = [
+    "https://api.mapbox.com/",
+    "https://a.tiles.mapbox.com/",
+    "https://b.tiles.mapbox.com/",
+    "https://events.mapbox.com/",
+];
+const fontSrcUrls = [];
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://res.cloudinary.com/yelp-campground/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
+                "https://images.unsplash.com/",
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
 
 app.use(session(sessionConfig));
 app.use(flash());
