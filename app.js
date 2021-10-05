@@ -146,6 +146,11 @@ app.use('/campgrounds/:id/reviews', reviewRouter);
 app.use('/', userRouter);
 
 
+app.get('/campgrounds', (req, res) => {
+    const campgrounds = await Campground.find({});
+    res.render('campgrounds/index', { campgrounds });
+})
+
 app.all('*', (req, res, next) => {
     next(new ExpressError(404, 'Page Not found'));
 })
